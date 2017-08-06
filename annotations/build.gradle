@@ -1,0 +1,58 @@
+final ARTIFACT_ID = 'annotation'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+dependencies {
+    
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+  task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier 'javadoc'
+    from javadoc.destinationDir
+}
+
+
+configurations {
+    mavenDeployer
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        pom.groupId = GROUP_ID
+        pom.artifactId = PREFIX_ARTIFACT + ARTIFACT_ID
+        pom.version = VERSION
+    }
+}
+
+publishing {
+    publications {
+            AjsonPublication(MavenPublication) {
+                    from components.java
+                    groupId GROUP_ID
+                    artifactId PREFIX_ARTIFACT + ARTIFACT_ID
+                    version VERSION
+                    artifact sourcesJar
+                    artifact javadocJar
+
+            }
+    }
+}
+
+
