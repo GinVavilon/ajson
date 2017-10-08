@@ -1,8 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-eclipse'
 
-def annoationDir="$buildDir/generated/source/annotation"
-
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
@@ -51,5 +49,4 @@ androidEclipse{
 
    manifest = merged
    pluginType = ANDMORE
-   generatedDirs+="$buildDir/generated/source/apt"
 }
