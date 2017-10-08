@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Mark object or interface for serilize as JSON
+ * Mark object or interface for serialize as JSON
  * 
  * @author Vladimir Baraznovsky
  *
@@ -17,6 +17,10 @@ import java.lang.annotation.Target;
 @Target(value = ElementType.TYPE)
 @Retention(value = RetentionPolicy.CLASS)
 public @interface JsonObject {
+
+    /**
+     * Name class for initialize with default constructor
+     */
     String instance() default "";
 
 }
