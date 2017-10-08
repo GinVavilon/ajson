@@ -1,0 +1,75 @@
+final ARTIFACT_ID = 'processor'
+final NAME = 'AJson-Processor'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':annotations')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+  task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier 'javadoc'
+    from javadoc.destinationDir
+}
+
+
+configurations {
+    mavenDeployer
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
+}
+
+
+publishing {
+    publications {
+            AjsonPublication(MavenPublication) {
+                    from components.java
+                    groupId GROUP_ID
+                    artifactId PREFIX_ARTIFACT + ARTIFACT_ID
+                    version VERSION
+                    artifact sourcesJar
+                    artifact javadocJar
+                    updatePom(pom, NAME, DESCRIPTION)
+
+            }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintrayUser') ? project.property('bintrayUser') : System.getenv('BINTRAY_USER')
+    key = project.hasProperty('bintrayApiKey') ? project.property('bintrayApiKey') : System.getenv('BINTRAY_API_KEY')
+    publications = ['AjsonPublication']
+    pkg {
+            repo = 'maven'
+            name = REPOSITOTY_NAME
+            description = DESCRIPTION
+            userOrg = user
+            licenses = LICENSES
+            vcsUrl = VCS_URL
+            labels = ['android','processor', 'annotation', 'json']
+            publicDownloadNumbers = PUBLISH
+            publish = PUBLISH
+            version {
+                    name = VERSION
+                    desc = gitTag?.fullMessage
+                    vcsTag = gitTag?.tagName
+                    released = gitTag?.taggerIdent?.when?.format("yyyy-MM-dd'T'HH:mm:ss.SSSZZ")
+            }
+    }
+}
