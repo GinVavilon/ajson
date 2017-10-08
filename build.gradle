@@ -1,7 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-ext.GROUP_ID = 'com.github.ginvavilon'
-ext.VERSION = '0.0.1-SNAPHOT'
+ext.GROUP_ID = 'com.github.ginvavilon.ajson'
+ext.VERSION = '0.1.5-SNAPHOT'
 ext.PREFIX_ARTIFACT = 'ajson-'
+ext.REPOSITORY_URL = 'https://github.com/GinVavilon/ajson'
+ext.VCS_URL = 'https://github.com/GinVavilon/ajson.git'
+ext.LICENSES = ['Apache-2.0']
+ext.REPOSITOTY_NAME = 'AJson'
+ext.PUBLISH = true
+ext.DESCRIPTION = 'Annotation processor for geraration parser to JSON for objects'
+
 
 buildscript {
     repositories {
@@ -10,7 +17,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath 'com.github.ginvavilon:android-eclipse:0.8.+'
-
+		classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+		classpath 'org.eclipse.jgit:org.eclipse.jgit:4.2.0.+'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -25,4 +33,57 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.Repository
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
+
+def getGitTag(){
+
+    try{
+        FileRepositoryBuilder builder = new FileRepositoryBuilder();
+        Repository repository = builder.findGitDir(projectDir)
+            .readEnvironment()
+            .build();
+        Git git=Git.wrap(repository)
+        RevWalk walk = new RevWalk(repository);
+        def tagName = git.describe().call()
+        def tag = walk.parseTag(repository.getTags().get(tagName).objectId)
+        return tag
+    } catch (e){
+        return null
+    }
+}
+
+ext.gitTag = getGitTag();
+
+def updatePom(def pom, def artifactName, def artifactDescription){ 
+    pom.withXml {
+        asNode().children().last() + {
+        resolveStrategy = Closure.DELEGATE_FIRST
+            name artifactName
+            description artifactDescription
+            inceptionYear '2017'
+            url REPOSITORY_URL
+            scm {
+                url REPOSITORY_URL
+            }
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/license/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            developers {
+                developer {
+                    id 'ginVavilon'
+                    name 'Vladimir Baraznovsky'
+                    email 'ginVavilon@gmail.com'
+                }
+            }
+        }
+    }
 }
