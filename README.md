@@ -6,9 +6,9 @@ Add dependencies
 ```Gradle
 dependencies {
 
-    compile 'com.github.ginvavilon.ajson:ajson-annotations:0.1.5-SNAPHOT'
-    compile 'com.github.ginvavilon.ajson:ajson-objects:0.1.5-SNAPHOT'
-    annotationProcessor 'com.github.ginvavilon.ajson:ajson-processor:0.1.5-SNAPHOT'
+    compile 'com.github.ginvavilon.ajson:ajson-annotations:0.9.0'
+    compile 'com.github.ginvavilon.ajson:ajson-objects:0.9.0'
+    annotationProcessor 'com.github.ginvavilon.ajson:ajson-processor:0.9.0'
 
 }
 ```
