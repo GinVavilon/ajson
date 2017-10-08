@@ -4,6 +4,7 @@
 package com.github.ginvavilon.ajson;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,7 @@ public abstract class BaseJson<T extends Object> {
     public abstract Object toJson(T pValue) throws JSONException;
 
 
-    public JSONArray toJson(List<T> pList) throws JSONException {
+    public JSONArray toJson(Collection<T> pList) throws JSONException {
         if (pList == null) {
             return null;
         }
