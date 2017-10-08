@@ -2,6 +2,7 @@
 .classpath
 .gradle/
 */build/
+build/
 *.iml
 .idea
 .settings/
