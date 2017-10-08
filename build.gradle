@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 ext.GROUP_ID = 'com.github.ginvavilon.ajson'
-ext.VERSION = '0.1.5-SNAPHOT'
+ext.VERSION = '0.9.0'
 ext.PREFIX_ARTIFACT = 'ajson-'
 ext.REPOSITORY_URL = 'https://github.com/GinVavilon/ajson'
 ext.VCS_URL = 'https://github.com/GinVavilon/ajson.git'
