@@ -9,6 +9,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Mark object or interface for serilize as JSON
+ * 
  * @author Vladimir Baraznovsky
  *
  */

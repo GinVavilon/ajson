@@ -24,6 +24,7 @@ public class TestObject {
         return new TestInterface() {
 
             private String mHideName;
+            private String mValue;
 
             @Override
             public void setName(String name) {
@@ -34,6 +35,16 @@ public class TestObject {
             @Override
             public String getName() {
                 return mHideName;
+            }
+
+            @Override
+            public void setValue(String pValue) {
+                mValue = pValue;
+            }
+
+            @Override
+            public String getValue() {
+                return mValue;
             }
         };
 

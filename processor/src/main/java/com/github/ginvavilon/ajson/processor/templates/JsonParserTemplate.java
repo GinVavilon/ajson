@@ -14,12 +14,15 @@ import java.util.TreeSet;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.ArrayType;
 import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.ExecutableType;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.ElementFilter;
 
@@ -236,16 +239,20 @@ public class JsonParserTemplate extends BaseTemplate {
                 jsonType = annotationMethod.type().getJsonType();
                 name = annotationMethod.value();
             }
+
             if (annotationField != null) {
                 isJson = true;
                 ignoreNull = annotationField.ignoreNull();
                 jsonType = annotationField.type().getJsonType();
                 name = annotationField.value();
 
+                if (element.getKind() == ElementKind.METHOD) {
+                    maskSet = "pObject.%s(%s);";
+                    ExecutableType method = (ExecutableType) element.asType();
 
-                if (!element.getModifiers().contains(Modifier.PRIVATE)) {
+                    isJson = method.getParameterTypes().size() == 1;
+                } else if (!element.getModifiers().contains(Modifier.PRIVATE)) {
                     maskSet = "pObject.%s = %s;";
-
                 } else {
                     maskSet = "pObject.set%s(%s);";
                     if (fieldName.matches("m[A-Z][A-Z0-9a-z_]*")) {
@@ -326,6 +333,14 @@ public class JsonParserTemplate extends BaseTemplate {
                 isJson = true;
                 ignoreNull = annotationField.ignoreNull();
                 name = annotationField.value();
+                if (element.getKind() == ElementKind.METHOD) {
+                    maskGet = "pObject.%s()";
+                    ExecutableType method = (ExecutableType) element.asType();
+
+                    isJson = (method.getParameterTypes().size() == 0)
+                            && (!method.getReturnType().getKind().equals(TypeKind.VOID));
+
+                } else 
                 if (!element.getModifiers().contains(Modifier.PRIVATE)) {
                     maskGet = "pObject.%s";
 

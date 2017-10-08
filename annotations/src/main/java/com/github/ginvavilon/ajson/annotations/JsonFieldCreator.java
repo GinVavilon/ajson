@@ -9,11 +9,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Create object for parsing
+ * 
  * @author Vladimir Baraznovsky
  *
  */
 @Target(value = ElementType.METHOD)
 @Retention(value = RetentionPolicy.CLASS)
 public @interface JsonFieldCreator {
+
+    /**
+     * Names of fields
+     */
     String[] value();
 }

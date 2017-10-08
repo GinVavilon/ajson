@@ -8,8 +8,17 @@ package com.github.ginvavilon.ajson.annotations;
  * 
  */
 public enum JsonType {
-    AUTO, ARRAY("org.json.JSONArray"), STRING(String.class), DOUBLE(Double.class), INT(Integer.class), OBJECT("org.json.JSONObject"), LONG(
-            Long.class), BOOLEAN(Boolean.class), NONE, MAP("org.json.JSONObject");
+    AUTO,
+    ARRAY("org.json.JSONArray"),
+    STRING(String.class),
+    DOUBLE(Double.class),
+    INT(Integer.class),
+    OBJECT("org.json.JSONObject"),
+    LONG(Long.class),
+    BOOLEAN(Boolean.class),
+    NONE,
+    MAP("org.json.JSONObject");
+
     private final String mJsonType;
 
     private JsonType(String pJsonType) {

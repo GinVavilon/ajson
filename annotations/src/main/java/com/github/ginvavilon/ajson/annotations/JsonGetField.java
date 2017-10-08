@@ -9,6 +9,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Mark method as getter of field
+ * 
  * @author Vladimir Baraznovsky
  *
  */
