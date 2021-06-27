@@ -4,6 +4,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 dependencies {
     
@@ -34,6 +35,17 @@ artifacts {
 }
 
 publishing {
+
+  	repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username nexusUsername
+                password nexusPassword
+            }
+        }
+    }	
+
     publications {
             AjsonPublication(MavenPublication) {
                     from components.java
@@ -47,4 +59,6 @@ publishing {
     }
 }
 
-
+signing {
+    sign publishing.publications.AjsonPublication
+}

@@ -3,6 +3,7 @@ final NAME = 'AJson-Objects'
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 android {
     compileSdkVersion 25
@@ -50,7 +51,7 @@ task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
-task jar(type: Jar, dependsOn: 'bundleRelease') {
+task jar(type: Jar, dependsOn: 'assembleRelease') {
     from zipTree("$buildDir/intermediates/bundles/default/classes.jar")
 }
 
@@ -65,6 +66,17 @@ artifacts {
 }
 
 publishing {
+
+  	repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username nexusUsername
+                password nexusPassword
+            }
+        }
+    }
+
     publications {
             AjsonPublication(MavenPublication) {
                     
@@ -72,10 +84,13 @@ publishing {
                     artifactId PREFIX_ARTIFACT + ARTIFACT_ID
                     version VERSION
                     artifact jar
-                    artifact bundleRelease
                     artifact sourcesJar
                     artifact javadocsJar
                     updatePom(pom, NAME, DESCRIPTION)
             }
     }
+}
+
+signing {
+    sign publishing.publications.AjsonPublication
 }
