@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Return custom {@link ObjectJson} for pursing fields
+ * Return custom ObjectJson for pursing fields
  * 
  * @author Vladimir Baraznovsky
  *
