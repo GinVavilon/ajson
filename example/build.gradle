@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-eclipse'
 
 android {
     compileSdkVersion 25
@@ -43,10 +42,4 @@ dependencies {
     annotationProcessor project(':processor')
 
     testCompile 'junit:junit:4.12'
-}
-
-androidEclipse{
-
-   manifest = merged
-   pluginType = ANDMORE
 }
